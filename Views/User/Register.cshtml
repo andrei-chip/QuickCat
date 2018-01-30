@@ -1,0 +1,70 @@
+﻿@model QuickCat.ModelView.CustomerViewModel
+@using QuickCat.Models;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Register</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+</head>
+<body>
+    <br />    
+    <div name="Register_body" style="margin-left:auto;margin-right:auto;width: 18em;"> 
+        <h2 style="text-align:center;">Register</h2>
+        <br />
+        @using (Html.BeginForm("Submit", "User", FormMethod.Post))
+        {
+            <table>
+                <tr>
+                    <td>ID:</td>
+                    <td>@Html.TextBoxFor(m => m.customer.ID, new { @class = "form-control" })</td>
+                    <td><div style="color:red">@Html.ValidationMessageFor(x => x.customer.ID)</div></td>
+                <tr/>
+                <tr>
+                    <td>First Name:</td>
+                    <td>@Html.TextBoxFor(m => m.customer.FirstName, new { @class = "form-control" })</td>
+                    <td><div style="color:red">@Html.ValidationMessageFor(x => x.customer.FirstName)</div></td>
+                <tr />
+                <tr>
+                    <td>Last Name:</td>
+                    <td>@Html.TextBoxFor(m => m.customer.LastName, new { @class = "form-control" })</td>
+                    <td><div style="color:red">@Html.ValidationMessageFor(x => x.customer.LastName)</div></td>
+                <tr />
+                <tr>
+                    <td>City:</td>
+                    <td>@Html.TextBoxFor(m => m.customer.City, new { @class = "form-control" })</td>
+                    <td><div style="color:red">@Html.ValidationMessageFor(x => x.customer.City)</div></td>
+                <tr />
+                <tr>
+                    <td>Address:</td>
+                    <td>@Html.TextBoxFor(m => m.customer.Address, new { @class = "form-control" })</td>
+                    <td><div style="color:red">@Html.ValidationMessageFor(x => x.customer.Address)</div></td>
+                <tr />
+                <tr>
+                    <td>Email:</td>
+                    <td>@Html.TextBoxFor(m => m.customer.Email, new { @class = "form-control" })</td>
+                    <td><div style="color:red">@Html.ValidationMessageFor(x => x.customer.Email)</div></td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td>@Html.PasswordFor(m => m.customer.Password, new { @class = "form-control", @type = "password" })</td>
+                    <td><div style="color:red">@Html.ValidationMessageFor(x => x.customer.Password)</div></td>
+                <tr />
+                
+                <tr>
+                    <td><input class="btn btn-info" name="Submit" type="submit" value="Register" /></td>
+                </tr>
+            </table>
+        }
+ 
+        <br/>
+    </div>
+</body>
+</html>

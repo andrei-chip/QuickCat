@@ -1,0 +1,46 @@
+﻿@model QuickCat.ModelView.CustomerViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+</head>
+<body>
+    <div name="Login_body" style="margin-left:auto;margin-right:auto;width: 18em;">
+        <br />
+        <h2 style="text-align:center;">Login</h2>
+        <br />
+        @using (Html.BeginForm("Authenticate", "User", FormMethod.Post))  
+        {
+            <table>
+
+                <tr>
+                    <td>E-mail:</td>
+                    <td>@Html.TextBoxFor(m => m.user.Email, new { @class = "form-control" })</td>
+                    <td><div style="color:red">@Html.ValidationMessageFor(x => x.user.Email)</div></td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td>@Html.PasswordFor(m => m.user.Password, new { @class = "form-control", @type = "password" })</td>
+                    <td><div style="color:red">@Html.ValidationMessageFor(x => x.user.Password)</div></td>
+                </tr>
+                <tr>
+                    <td><input class="btn btn-info" name="Submit" type="submit" value="Login" /></td>
+                </tr>
+                <tr><td style="color:red">@Model.ErrorMessage</td></tr>
+            </table>
+        }
+        <br />
+
+    </div>
+</body>
+</html>

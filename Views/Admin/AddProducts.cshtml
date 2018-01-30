@@ -1,0 +1,113 @@
+﻿@model QuickCat.ModelView.CustomerViewModel
+@using QuickCat.Models;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ManageProducts</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+</head>
+<body>
+    <div>
+        <form id="AddProduct">
+            <br />
+            <table>
+                <tr>
+                    <td>Product name:</td>
+                    <td>@Html.TextBoxFor(m => m.product.ProductName, new { @class = "form-control" })</td>
+                    <td><div style="color:red">@Html.ValidationMessageFor(m => m.product.ProductName)</div></td>
+                <tr />
+                <tr>
+                    <td>Pet's type:</td>
+                    <td>@Html.TextBoxFor(m => m.product.PetType, new { @class = "form-control" })</td>
+                    <td><div style="color:red">@Html.ValidationMessageFor(m => m.product.PetType)</div></td>
+                <tr />
+                <tr>
+                    <td>Category:</td>
+                    <td>
+                        <select class="form-control" name="Category"  >
+                            <option value="DryFood">Dry Food</option>
+                            <option value="CannedFood">Canned Food</option>
+                        </select>
+                    </td>
+                <tr />
+                <tr>
+                    <td>Price:</td>
+                    <td>@Html.TextBoxFor(m => m.product.ProductPrice, new { @class = "form-control" })</td>
+                    <td><div style="color:red">@Html.ValidationMessageFor(m => m.product.ProductPrice)</div></td>
+                <tr />
+                <tr>
+                    <td>Description:</td>
+                    <td>@Html.TextBoxFor(m => m.product.ProductText, new { @class = "form-control" })</td>
+                    <td><div style="color:red">@Html.ValidationMessageFor(m => m.product.ProductText)</div></td>
+                <tr />
+                <tr>
+                    <td>Image name:</td>
+                    <td>@Html.TextBoxFor(m => m.product.ProductImg, new { @class = "form-control" })</td>
+                    <td><div style="color:red">@Html.ValidationMessageFor(m => m.product.ProductImg)</div></td>
+                <tr />
+
+                <tr>
+                    <td><input class="btn btn-info" name="Submit" type="submit" value="AddProduct" onclick="SendData()" /></td>
+                </tr>
+            </table>
+        </form>
+        <div id="status"></div>
+        <table class="table" id="productsTable" border="1">
+            <tr>
+                <td>ID</td>
+                <td>Name</td>
+                <td>Type</td>
+                <td>Category</td>
+                <td>Price</td>
+                <td>Description</td>
+                <td>Image</td>
+            </tr>
+        </table>
+
+
+        <script language="javascript">
+            $("#status").text("Loading...");
+            $.get("GetProductsByJson", null, BindData);
+            function BindData(products)
+            {
+                $("#productsTable").find("tr:gt(0)").remove();
+                var tbl = $("#productsTable");
+
+                for (k = 0; k < products.length; k++)
+                {
+                    var newRow = "<tr>" +
+                                    "<td>" + products[k].ProductID + "</td>" +
+                                    "<td>" + products[k].ProductName + "</td>" +
+                                    "<td>" + products[k].PetType + "</td>" +
+                                    "<td>" + products[k].ProductCategory + "</td>" +
+                                    "<td>" + products[k].ProductPrice + "</td>" +
+                                    "<td>" + products[k].ProductText + "</td>" +
+                                    "<td>" + products[k].ProductImg + "</td>" +
+                                "</tr>"
+                    tbl.append(newRow);
+                }
+                $("#status").text("");
+            }
+            function SendData()
+            {
+                //post to MVC
+                $("#status").text("Saving product, please wait...");
+                var frmData = $("#AddProduct").serialize();
+                $.post("NewProduct", frmData, BindData);//send data to mvc and load table
+            }
+
+
+        </script>
+    </div>
+</body>
+</html>
+

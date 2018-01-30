@@ -1,0 +1,39 @@
+﻿@model QuickCat.ModelView.CustomerViewModel
+@using QuickCat.ModelView
+@if (Request.IsAuthenticated && Model != null)
+{
+    if (Model.customer == null || Session["cvm"]==null)
+    {
+        <ul class="nav navbar-nav navbar-right">
+            <li>@Html.ActionLink("Register", "Register", "User", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+            <li>@Html.ActionLink("Log in", "Login", "User", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        </ul>
+    }
+    else
+    {
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+    @Html.AntiForgeryToken()
+
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            @Html.ActionLink("Hello " + Model.customer.FirstName + "!", "Index", "Home")
+        </li>
+            @if ((@Session["cvm"] as CustomerViewModel).customer.Permission==1)
+            {
+                <li>@Html.ActionLink("Manage products", "ManageProducts", "Admin")</li>
+            }
+        <li>@Html.ActionLink("Logout", "Logout", "Admin")</li>
+        
+        @*<li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>*@
+    </ul>
+                    }
+                }
+            }
+            else
+            {
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Register", "Register", "User", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Log in", "Login", "User", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+    }

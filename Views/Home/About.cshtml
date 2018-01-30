@@ -1,0 +1,38 @@
+﻿@model QuickCat.ModelView.CustomerViewModel
+@using QuickCat.Models
+
+
+@{
+    ViewBag.Title = "About";
+}
+<head>
+<meta name="viewport" content="width=device-width" />
+<title>About QuickCat</title>
+</head>
+<body>
+    <br />
+    <h1>Our shops:</h1>
+    <br />
+    <table class="table" border="1">
+        <tr>
+            <td>City</td>
+            <td>Address</td>
+            <td>Phone</td>
+            <td>Open Hours in Week</td>
+            <td>Open Hours in Weekend</td>
+        </tr>
+        @foreach (var x in Model.shops)
+        {
+            <tr>
+                <td>@x.City</td>
+                <td>@x.Address</td>
+                <td>@x.Phone</td>
+                <td>@x.OpenHoursWeek</td>
+                <td>@x.OpenHoursWeekend</td>
+            </tr>
+        }
+
+    </table>
+
+</body>
+

@@ -1,0 +1,105 @@
+﻿@model QuickCat.ModelView.CustomerViewModel
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Cart</h2>
+<body>
+    <span style="color:blue">Total price:@Session["TotalPrice"]</span>
+    @if (@Model.cart != null)
+    {
+        <div><input type="submit" class="btn btn-success" value="Check Out" onclick="CheckOut()" /></div>
+    }
+    <br />
+    <style type="text/css">
+        .webgrid-table {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            font-size: 1.2em;
+            width: 100%;
+            display: table;
+            border-collapse: separate;
+            border: solid 1px #98BF21;
+            background-color: white;
+        }
+
+            .webgrid-table td, th {
+                border: 1px solid #98BF21;
+                padding: 3px 7px 2px;
+            }
+
+        .webgrid-header {
+            background-color: #A7C942;
+            color: #FFFFFF;
+            padding-bottom: 4px;
+            padding-top: 5px;
+            text-align: left;
+        }
+
+        .webgrid-footer {
+        }
+
+        .webgrid-row-style {
+            padding: 3px 7px 2px;
+        }
+
+        .webgrid-alternating-row {
+            background-color: #EAF2D3;
+            padding: 3px 7px 2px;
+        }
+    </style>
+
+    @{
+        WebGrid grid = new WebGrid(Model.cart);
+    }
+    @if (Model.cart != null)
+    {
+    <div id="gridContent" style=" padding:20px; ">
+        @grid.GetHtml(
+             tableStyle: "webgrid-table",
+             headerStyle: "webgrid-header",
+             footerStyle: "webgrid-footer",
+             alternatingRowStyle: "webgrid-alternating-row",
+             selectedRowStyle: "webgrid-selected-row",
+             rowStyle: "webgrid-row-style",
+             mode: WebGridPagerModes.All,
+             columns:
+                 grid.Columns(
+                 grid.Column(columnName: "ProductID", header: "ID", format: @<text>@item.ProductID</text>),
+                 grid.Column(columnName: "ProductName", header: "Name", format: @<text>@item.ProductName</text>),
+                 grid.Column(columnName: "PetType", header: "Pet's type", format: @<text>@item.PetType</text>),
+                 grid.Column(columnName: "ProductCategory", header: "Category", format: @<text>@item.ProductCategory</text>),
+                 grid.Column(columnName: "ProductPrice", header: "Price", format: @<text>@item.ProductPrice</text>),
+                 grid.Column(columnName: "ProductText", header: "Description", format: @<text>@item.ProductText</text>),
+                 grid.Column(columnName: "ProductImg", header: "Image", format: @<img src="~/Images/products/@item.ProductImg" alt="@item.ProductName" style="width:120px;height:130px;">),
+                 grid.Column(columnName: "Remove", header: "Remove", format: @<input name="@item.ProductID" id="removeProduct" type="submit" value="remove" onclick="SendData(this.getAttribute('name'))" />)
+
+                ))
+        
+
+    </div>
+    }
+    else
+    {
+        <br />
+        <span style="color:blue">Cart is empty...</span>
+    }
+    <script language="javascript">
+            function refresh()
+            {
+                setTimeout(function ()
+                {
+                    location.reload()
+                }, 100);
+            }
+            function SendData(id)
+            {
+                $.post("RemoveFromCart", id, refresh);
+            }
+            function CheckOut()
+            {
+                $.post("CheckOut", null, refresh);
+                Response.Write(alert('Thank you for purchases'));
+            }
+    </script>
+</body>
